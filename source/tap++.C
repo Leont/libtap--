@@ -176,8 +176,8 @@ namespace TAP {
 			return ret;
 		}
 
-	 	char const * failed_test_msg() throw() {
-		     return is_todo_test()?"Failed (TODO) test":"Failed test";
+		const char* failed_test_msg() throw() {
+			return is_todo_test() ? "Failed (TODO) test" : "Failed test";
 		}
 
 	}

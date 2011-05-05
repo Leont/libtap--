@@ -15,9 +15,9 @@ namespace TAP {
 		extern std::ostream* output;
 		extern std::ostream* error;
 
-        	//Return the variant of "Failed test" or "Failed
-	        //(TODO) test" required by whether the current test is
-	        //a todo test
+		//Return the variant of "Failed test" or "Failed
+		//(TODO) test" required by whether the current test is
+		//a todo test
 		char const * failed_test_msg() throw();
 	}
 	class fatal_exception : public std::exception {
