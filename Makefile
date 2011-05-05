@@ -34,10 +34,17 @@ love:
 	@echo Not war?
 
 install: $(LIB)
-	cp libtap++.so $(PREFIX)/lib/
-	cp -a headers/tap++/ $(PREFIX)/include/
+	cp --preserve=timestamps libtap++.so $(PREFIX)/lib/
+	cp -dR --preserve=timestamps,links headers/tap++/ $(PREFIX)/include/
+	chmod a+x $(PREFIX)/include/tap++
+	chmod -R a+r $(PREFIX)/include/tap++
+	chmod a+rx $(PREFIX)/lib/libtap++.so
 
-.PHONY: todo install test testbuild clean testclean all
+uninstall:
+	-rm $(PREFIX)/lib/libtap++.so
+	-rm -r $(PREFIX)/include/tap++
+
+.PHONY: todo install test testbuild clean testclean all uninstall
 
 todo:
 	@for i in FIX''ME XX''X TO''DO; do echo -n "$$i: "; $(ACK) $$i | wc -l; done;
