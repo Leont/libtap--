@@ -6,6 +6,7 @@
 #include <boost/type_traits/is_convertible.hpp>
 #include <boost/type_traits/is_floating_point.hpp>
 #include <boost/utility/enable_if.hpp>
+#include <boost/regex.hpp>
 #include <cmath>
 
 namespace TAP {
@@ -202,6 +203,29 @@ namespace TAP {
 		todo_guard() throw();
 		~todo_guard() throw();
 	};
+	bool like(const std::string& haystack, const boost::regex& regex, const std::string& message) {
+			bool ret = ok(boost::regex_search(haystack, regex), message);
+			if (!ret) {
+					diag("Failed test '", message, "'");
+					diag("String '", haystack, "' doesn't match regexp '", regex.str(), "' but should");
+			}
+			return ret;
+	}
+	bool like(const std::string& haystack, const std::string& pre_regex, const std::string& message = "") {
+			return like(haystack, boost::regex(pre_regex), message);
+	}
+
+	bool unlike(const std::string& haystack, const boost::regex& regex, const std::string& message) {
+			bool ret = ok(boost::regex_search(haystack, regex), message);
+			if (!ret) {
+					diag("Failed test '", message, "'");
+					diag("String '", haystack, "' matches regexp '", regex.str(), "' but shouldn't");
+			}
+			return ret;
+	}
+	bool unlike(const std::string& haystack, const std::string& pre_regex, const std::string& message = "") {
+			return unlike(haystack, boost::regex(pre_regex), message);
+	}
 }
 
 #ifdef WANT_TEST_EXTRAS

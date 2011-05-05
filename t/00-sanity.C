@@ -19,7 +19,7 @@ class exception : public std::exception {
 };
 
 int main() {
-	TEST_START(16);
+	TEST_START(17);
 
 	ok(true, "True is ok");
 	not_ok(false, "False is not ok");
@@ -36,6 +36,7 @@ int main() {
 	is_convertible<float, int>("Integer can be converted into a Scalar");
 	is_inconvertible<void*, int>("Integer can't be converted into a String");
 	is_inconvertible<int, int(*)()>("int can't be converted into an function pointer");
+	like("foo", "foo", "'foo' matches 'foo'");
 
 	BLOCK_START(1);
 		skip("Should skip");

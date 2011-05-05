@@ -11,7 +11,7 @@ TEST_GOALS = t/00-sanity.t
 all: $(LIB)
 
 $(LIB): source/tap++.C headers/tap++/tap++.h
-	gcc -shared -o $@ -Wl,-soname,$(LIB) $(CXXFLAGS) -Iheaders source/*.C
+	$(CXX) -shared -o $@ -Wl,-soname,$(LIB) $(CXXFLAGS) -lboost_regex -Iheaders source/*.C
 
 t/%.t: t/%.C $(LIB)
 	$(CXX) $(CXXFLAGS) -L. -ltap++ -Iheaders -o $@ $< 
