@@ -1,0 +1,6 @@
+.*.swp
+t/*-*.t
+t/*.t.exe
+*/*.o
+test.out
+libtap++*
