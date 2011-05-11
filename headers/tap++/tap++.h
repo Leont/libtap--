@@ -8,6 +8,7 @@
 #include <boost/utility/enable_if.hpp>
 #include <boost/regex.hpp>
 #include <cmath>
+#include <utility> //For pair
 
 namespace TAP {
 	namespace details {
@@ -227,6 +228,22 @@ namespace TAP {
 			return unlike(haystack, boost::regex(pre_regex), message);
 	}
 
+	///\brief Print a pair to \a out if the pair's contained types
+	///\brief are printable
+ 	///
+	///\param out The stream to print to
+ 	///
+ 	///\param toPrint The pair to be printed
+ 	///
+ 	///\return \a out after the print operation has occurred
+	template<class A, class B>
+	std::ostream& operator<<(std::ostream& out, 
+				 const std::pair<A,B>& toPrint){
+	  return 
+	    out << "std::pair( " << toPrint.first 
+		<< " , " << toPrint.second
+		<< " )";
+	}
 
 	///\brief Test assertion that two collections are equal - TAP producer
 	///
