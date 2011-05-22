@@ -8,6 +8,7 @@ libtap++ - C++ unit tests for the Test Anything Protocol
 
   #include <tap++/tap++.h>
   #include <string>
+  #include <vector>
 
   using namespace TAP;
 
@@ -19,8 +20,14 @@ libtap++ - C++ unit tests for the Test Anything Protocol
     return "a string";
   }
 
+  std::vector<int> vec(){
+    std::vector<int> v; int i = 0;
+    while(i < 4){ v.push_back(++i); }
+    return v;
+  }
+
   int main() {
-    plan(4);
+    plan(5);
     ok(true, "This test passes");
     is(foo(), 1, "foo() should be 1");
     is(bar(), "a string", "bar() should be \"a string\"");
@@ -28,6 +35,11 @@ libtap++ - C++ unit tests for the Test Anything Protocol
     TODO="Foo is not completely implemented";
     is(foo(2), 5, "foo(2) should be 5");
     TODO="";
+
+    int expec[4]={1,2,3,4};
+    std::vector<int> actual = vec();
+    collection_is(actual.begin(), actual.end(), expec, expec+4,
+                  "vec() returns {1,2,3,4}");
 
     return exit_status();
   }
@@ -162,6 +174,29 @@ Will produce something like this:
     #   Failed test 'Is foo the same as bar?'
     #          got: 'waffle'
     #     expected: 'yarblokos'
+
+=item B<collection_is()>
+
+  template<class IterA, class IterB>
+  bool collection_is(IterA got_begin, IterA got_end, 
+                     IterB expected_begin, IterB expected_end, 
+                     const std::string& message = "")
+
+is() does not work for collections (arrays, vectors, multimaps etc.) because
+there is no default way to print them -- and even if there was, it could be a
+lot of information.  collection_is() allows you to compare two collections in a
+single test.  You can even compare the contents of different collection types --
+which is really useful in comparing the contents of standard template library
+containers with literal arrays.  For example:
+
+std::set<int> a;
+int i = 10; while(i >= 3){ a.push_back(i--); }
+
+int expected[]={3,4,5,6,7,8,9,10};
+collection_is(a.begin(),a.end(), expected, expected+8,"a was what we expected");
+
+collection_is() produces diagnostics that inform both about differences in
+length and also about individual items that differ.
 
 =item B<pass()>
 
