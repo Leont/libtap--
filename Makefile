@@ -6,7 +6,7 @@ DEBUG = -ggdb3 -DDEBUG
 CXXFLAGS = $(DEBUG) $(WARNINGS) -fPIC
 PREFIX=/usr/local
 LIBRARY_VAR=LD_LIBRARY_PATH
-TEST_GOALS = t/00-sanity.t
+TEST_GOALS = t/00-sanity.t t/01-collection_is.t t/02-pair_printing.t
 
 all: $(LIB)
 
